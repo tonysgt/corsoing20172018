@@ -30,6 +30,10 @@ namespace ServiceAPI
             }
         }
 
+    
+
+
+
 
         [HttpGet("students")]
         public async Task<IActionResult> GetStudents()
@@ -54,7 +58,11 @@ namespace ServiceAPI
         {
             using (var context = new StudentsDbContext())
             {
-                return Ok(await context.Students.FirstOrDefaultAsync(x => x.Id == id));
+                var student = await context.Students.FirstOrDefaultAsync(x => x.Id == id);
+                if (student == null)
+                    return NotFound();
+                else
+                    return Ok(student);
             }
         }
 
